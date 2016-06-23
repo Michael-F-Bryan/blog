@@ -9,6 +9,7 @@ PATH = 'content'
 TIMEZONE = 'Australia/Perth'
 
 DEFAULT_LANG = 'en'
+TYPOGRIFY = True
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
@@ -18,6 +19,9 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 TAGS_URL = 'tags.html'
+CATEGORIES_URL = 'categories.html'
+
+ARTICLE_PATHS = ['blog']
 
 # Sidebar stuff
 DISPLAY_CATEGORIES_ON_SIDEBAR = True
