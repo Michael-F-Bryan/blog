@@ -15,86 +15,76 @@ it here for future reference.
 First, if you don't have a copy of Ruby installed, the easiest way is to use
 RVM:
 
-{% highlight bash %}
-curl -L https://get.rvm.io | bash -s stable --ruby=2.0.0
-{% endhighlight %}
+    ::bash
+    curl -L https://get.rvm.io | bash -s stable --ruby=2.0.0
 
 Then install `Jekyll` by grabbing the Jekyll gem:
 
-{% highlight bash %}
-gem install jekyll
-{% endhighlight %}
+    ::bash
+    gem install jekyll
 
 Create a new blog:
 
-{% highlight bash %}
-jekyll new awesomeblog
-{% endhighlight %}
+    ::bash
+    jekyll new awesomeblog
 
 To test that everything was properly setup, you can `cd` into the blog's folder
 and use the built in jekyll server. Your static site willl now be available at
 [http://localhost:4000/](http://localhost:4000/).
 
-{% highlight bash %}
-cd awesomeblog
-jekyll serve
-{% endhighlight %}
+    ::bash
+    cd awesomeblog
+    jekyll serve
 
 Once you've double checked everything is in working order, you just need to 
 make the folder a git repository.
 
-{% highlight bash %}
-git init
-git add .
-git commit -m "Initial commit"
-{% endhighlight %}
+    ::bash
+    git init
+    git add .
+    git commit -m "Initial commit"
 
 ## On Your Remote Server 
 
 Assuming you already have `git` installed, first you'll need to install Jekyll
 like we did on the local computer.
 
-{% highlight bash %}
-curl -L https://get.rvm.io | bash -s stable --ruby=2.0.0
-gem install jekyll
-{% endhighlight %}
+    ::bash
+    curl -L https://get.rvm.io | bash -s stable --ruby=2.0.0
+    gem install jekyll
 
 Then you create a bare git repo to hold your static site's repository.
 
-{% highlight bash %}
-cd ~/
-mkdir repos && cd repos  # Make a folder to contain all git repos (optional)
-mkdir awesomeblog.git && cd awesomeblog.git
-git init --bare
-{% endhighlight %}
+    :;bash
+    cd ~/
+    mkdir repos && cd repos  # Make a folder to contain all git repos (optional)
+    mkdir awesomeblog.git && cd awesomeblog.git
+    git init --bare
 
 We're almost done, now you just need to set up a git hook so that whenever you
 push anything to the repository on your remote server, it'll automatically 
 get Jekyll to compile your static site into html and then copy it to the 
 `/var/www/site` directory.
 
-{% highlight bash %}
-cd hooks
-touch post-receive
-vim post-receive
-{% endhighlight %}
+    ::bash
+    cd hooks
+    touch post-receive
+    vim post-receive
 
 Make sure to paste this into the `post-receive` file, git will run this every
 time it receives a push.
 
-{% highlight bash %}
-#!/bin/bash -l
-GIT_REPO=$HOME/repos/awesomeblog.git
-TMP_GIT_CLONE=$HOME/tmp/git/awesomeblog
-PUBLIC_WWW=/var/www/awesomeblog
+    ::bash
+    #!/bin/bash -l
+    GIT_REPO=$HOME/repos/awesomeblog.git
+    TMP_GIT_CLONE=$HOME/tmp/git/awesomeblog
+    PUBLIC_WWW=/var/www/awesomeblog
 
-git clone $GIT_REPO $TMP_GIT_CLONE
-jekyll build --source $TMP_GIT_CLONE --destination $PUBLIC_WWW
-rm -Rf $TMP_GIT_CLONE
-exit 
-{% endhighlight %}
+    git clone $GIT_REPO $TMP_GIT_CLONE
+    jekyll build --source $TMP_GIT_CLONE --destination $PUBLIC_WWW
+    rm -Rf $TMP_GIT_CLONE
+    exit 
 
-[//]: <> $ a random dollar sign because vim-markdown thinks we wrote LaTeX
 
 Now you just need to make the post hook executable (`chmod +x post-receive`) 
 and you're finished setting up the Jekyll side of things.
@@ -102,10 +92,9 @@ and you're finished setting up the Jekyll side of things.
 So you can actually make edits locally and push them to your server, you'll 
 need to add it as a remote.
 
-{% highlight bash %}
-git remote add droplet user@example.org:repos/awesomeblog.git
-git git push droplet master
-{% endhighlight %}
+    ::bash
+    git remote add droplet user@example.org:repos/awesomeblog.git
+    git git push droplet master
 
 
 ## Nginx Configuration
@@ -122,9 +111,8 @@ Ubuntu repositories isn't as up to date as it could be, but it should be just
 fine for what we're wanting to do. If you want to install the latest release
 then there are instructions on the internet.
 
-{% highlight bash %}
-sudo apt-get install nginx
-{% endhighlight %}
+    ::bash
+    sudo apt-get install nginx
 
 Next `cd` into the `/etc/nginx/` directory. You'll see two directories, one 
 called `sites-available` (this is where you store site configurations) and 
@@ -133,16 +121,14 @@ called `sites-available` (this is where you store site configurations) and
 Nginx has the `default` configuration symlinked in `sites-enabled` out of the
 box so go and delete that.
 
-{% highlight bash %}
-sudo rm /etc/nginx/sites-enabled/default
-{% endhighlight %}
+    ::bash
+    sudo rm /etc/nginx/sites-enabled/default
 
 Next you'll want to create a new configuration for your site and put it in
 `sites-avaliable`.
 
-{% highlight bash %}
-sudo vim /etc/nginx/sites-available/blog
-{% endhighlight %}
+    ::bash
+    sudo vim /etc/nginx/sites-available/blog
 
 I used the following configuration for my site, it should be fairly intuitive,
 so adjust things so they're relevant to your particular setup.
@@ -165,9 +151,8 @@ so adjust things so they're relevant to your particular setup.
 Now just tell Nginx to reload its configuration and your static site should 
 be ready to go.
 
-{% highlight bash %}
-nginx -s reload
-{% endhighlight %}
+    ::bash
+    nginx -s reload
 
 ## Some Thoughts
 

@@ -24,17 +24,16 @@ are just sent back to the client.
 
 First we do a bunch of imports. Note that Rust uses the `use` key word here.
 
-{% highlight rust linenos %}
-// Get stuff from the std library
-use std::net::{TcpListener, TcpStream, Ipv4Addr};
-use std::thread;
-use std::str;
+    #!rust
+    // Get stuff from the std library
+    use std::net::{TcpListener, TcpStream, Ipv4Addr};
+    use std::thread;
+    use std::str;
 
-// traits
-use std::io::Read;
-use std::io::Write;
-}
-{% endhighlight %}
+    // traits
+    use std::io::Read;
+    use std::io::Write;
+    }
 
 The first section should be fairly intuitive, I'm just importing the
 TcpListener, TcpStream and Ipv4Addr structs from the std::net module. I'm also
@@ -56,31 +55,30 @@ to our server.
 Because I'm throwing each incoming connection into it's own thread, we need to
 implement a function that will handle this connection. That's up next.
 
-{% highlight rust linenos %}
-/// Create a handler function that will take a TCP socket/stream,
-/// read from it, store the read message in a 512 byte buffer,
-/// then echo it back to the client.
-fn handle_client(mut stream: TcpStream) {
-    // Get the peer's ip and port and print them to the 
-    // screen
-    let peer = stream.peer_addr().unwrap();
-    println!("Connection received from {}:{}\n", peer.ip(), peer.port());
+    #!rust
+    /// Create a handler function that will take a TCP socket/stream,
+    /// read from it, store the read message in a 512 byte buffer,
+    /// then echo it back to the client.
+    fn handle_client(mut stream: TcpStream) {
+        // Get the peer's ip and port and print them to the 
+        // screen
+        let peer = stream.peer_addr().unwrap();
+        println!("Connection received from {}:{}\n", peer.ip(), peer.port());
 
-    let mut buf = [0; 512]; // Create a buffer for ourselves
+        let mut buf = [0; 512]; // Create a buffer for ourselves
 
-    let m = stream.read(&mut buf).unwrap();
+        let m = stream.read(&mut buf).unwrap();
 
-    // Turn the message from a byte array to a string and 
-    // print it
-    let msg = str::from_utf8(&buf[0..m]).unwrap().trim();
-    println!("Received: {}", &msg);
+        // Turn the message from a byte array to a string and 
+        // print it
+        let msg = str::from_utf8(&buf[0..m]).unwrap().trim();
+        println!("Received: {}", &msg);
 
-    // Echo the message back to the client
-    let bytes_sent = stream.write(&msg.as_bytes()).unwrap();
-    println!("{} bytes sent to client", &bytes_sent);
-    println!("");
-}
-{% endhighlight %}
+        // Echo the message back to the client
+        let bytes_sent = stream.write(&msg.as_bytes()).unwrap();
+        println!("{} bytes sent to client", &bytes_sent);
+        println!("");
+    }
 
 The first thing you see in that code snippet is a bunch of lines all starting
 off with `///`. These are a special type of comment called `doc comments`. They
@@ -142,27 +140,26 @@ checking whether the connection was successful `Ok(stream)`, or an error,
 however if everything is fine then we spawn a new thread and running the
 handler.
 
-{% highlight rust %}
-fn main() {
-    let host = Ipv4Addr::new(127, 0, 0, 1);
-    let port = 8080;
+    #!rust
+    fn main() {
+        let host = Ipv4Addr::new(127, 0, 0, 1);
+        let port = 8080;
 
-    let  listener =  TcpListener::bind((host, port)).unwrap();
+        let  listener =  TcpListener::bind((host, port)).unwrap();
 
-    println!("Echo server listening on {}:{}", &host, &port);
+        println!("Echo server listening on {}:{}", &host, &port);
 
-    for stream in listener.incoming() {
-        match stream {
-            Err(e) => { 
-                println!("Error connecting: {}", &e);
-            },
-            Ok(stream) => {
-                thread::spawn(move || handle_client(stream));
-            },
+        for stream in listener.incoming() {
+            match stream {
+                Err(e) => { 
+                    println!("Error connecting: {}", &e);
+                },
+                Ok(stream) => {
+                    thread::spawn(move || handle_client(stream));
+                },
+            };
         };
-    };
-}
-{% endhighlight %}
+    }
 
 Something to note is the curious `move || handle_client(stream)` bit. What
 we're actually doing is creating a closure (sometimes called an anonymous or, 
@@ -188,40 +185,37 @@ The return value of your function is normally wrapped by an `Option` or a
 that'll either give you a file handler (`Ok(file_handler)`), or give you an
 error message (`Err(e)`).
 
-{% highlight rust %}
-let f = File::new("blah.txt");
+    #!rust
+    let f = File::new("blah.txt");
 
-match f {
-    Ok(file_handle) => let f = file_handle,
-    Err(e) => println!("Got an error: {}", e),
-}
-{% endhighlight %}
+    match f {
+        Ok(file_handle) => let f = file_handle,
+        Err(e) => println!("Got an error: {}", e),
+    }
 
 This is usually merged into one expression with a `let match`:
 
 
-{% highlight rust %}
-let f = match File::new("blah.txt") {
-    Ok(file_handle) => file_handler,
-    Err(e) => println!("Got an error: {}", e),
-}
-{% endhighlight %}
+    #!rust
+    let f = match File::new("blah.txt") {
+        Ok(file_handle) => file_handler,
+        Err(e) => println!("Got an error: {}", e),
+    }
 
- Note that the bit between the arrow (`=>`) and the comma is an expression and
- that in Rust, the return value of a series of expressions is the value of the
- last expression.
+Note that the bit between the arrow (`=>`) and the comma is an expression and
+that in Rust, the return value of a series of expressions is the value of the
+last expression.
 
- i.e.
+i.e.
 
-{% highlight rust %}
-let x = {
-    foo();
-    bar();
-    baz()
-}
+    #!rust
+    let x = {
+        foo();
+        bar();
+        baz()
+    }
 
-// x == baz()
-{% endhighlight %}
+    // x == baz()
 
 As useful as this explicit checking to see if a function did what you expected
 it to may be, it gets pretty repetitive after a while. Therefore a couple
@@ -242,61 +236,60 @@ consult the [official documentation][docs].
 
 And of course, here's the source code for the entire thing.
 
-{% highlight rust linenos %}
-// Imports
-use std::net::{TcpListener, TcpStream, Ipv4Addr};
-use std::thread;
-use std::str;
+    #!rust
+    // Imports
+    use std::net::{TcpListener, TcpStream, Ipv4Addr};
+    use std::thread;
+    use std::str;
 
-// traits
-use std::io::Read;
-use std::io::Write;
+    // traits
+    use std::io::Read;
+    use std::io::Write;
 
 
-/// Create a handler function that will take a TCP socket/stream,
-/// read from it, store the read message in a 512 byte buffer,
-/// then echo it back to the client.
-fn handle_client(mut stream: TcpStream) {
-    // Get the peer's ip and port and print them to the 
-    // screen
-    let peer = stream.peer_addr().unwrap();
-    println!("Connection received from {}:{}\n", peer.ip(), peer.port());
+    /// Create a handler function that will take a TCP socket/stream,
+    /// read from it, store the read message in a 512 byte buffer,
+    /// then echo it back to the client.
+    fn handle_client(mut stream: TcpStream) {
+        // Get the peer's ip and port and print them to the 
+        // screen
+        let peer = stream.peer_addr().unwrap();
+        println!("Connection received from {}:{}\n", peer.ip(), peer.port());
 
-    let mut buf = [0; 512]; // Create a buffer for ourselves
+        let mut buf = [0; 512]; // Create a buffer for ourselves
 
-    let m = stream.read(&mut buf).unwrap();
+        let m = stream.read(&mut buf).unwrap();
 
-    // Turn the message from a byte array to a string and 
-    // print it
-    let msg = str::from_utf8(&buf[0..m]).unwrap().trim();
-    println!("Received: {}", &msg);
+        // Turn the message from a byte array to a string and 
+        // print it
+        let msg = str::from_utf8(&buf[0..m]).unwrap().trim();
+        println!("Received: {}", &msg);
 
-    // Echo the message back to the client
-    let bytes_sent = stream.write(&msg.as_bytes()).unwrap();
-    println!("{} bytes sent to client", &bytes_sent);
-    println!("");
-}
+        // Echo the message back to the client
+        let bytes_sent = stream.write(&msg.as_bytes()).unwrap();
+        println!("{} bytes sent to client", &bytes_sent);
+        println!("");
+    }
 
-fn main() {
-    let host = Ipv4Addr::new(127, 0, 0, 1);
-    let port = 8080;
+    fn main() {
+        let host = Ipv4Addr::new(127, 0, 0, 1);
+        let port = 8080;
 
-    let  listener =  TcpListener::bind((host, port)).unwrap();
+        let  listener =  TcpListener::bind((host, port)).unwrap();
 
-    println!("Echo server listening on {}:{}", &host, &port);
+        println!("Echo server listening on {}:{}", &host, &port);
 
-    for stream in listener.incoming() {
-        match stream {
-            Err(e) => { 
-                println!("Error connecting: {}", &e);
-            },
-            Ok(stream) => {
-                thread::spawn(move || handle_client(stream));
-            },
+        for stream in listener.incoming() {
+            match stream {
+                Err(e) => { 
+                    println!("Error connecting: {}", &e);
+                },
+                Ok(stream) => {
+                    thread::spawn(move || handle_client(stream));
+                },
+            };
         };
-    };
-}
-{% endhighlight %}
+    }
 
 
 [rust]: https://www.rust-lang.org/

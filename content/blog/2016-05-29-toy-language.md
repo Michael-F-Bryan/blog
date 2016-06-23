@@ -63,6 +63,7 @@ develops.
 
 Function Definitions:
 
+    ::python
     def foo(int a, int b, str msg="blah"):
         """
         This is a string describing the foo function. 
@@ -73,6 +74,7 @@ Function Definitions:
 
 Looping:
 
+    ::python
     list[int] some_list = [1, 2, 3, 4]
 
     for int i in some_list:
@@ -81,6 +83,7 @@ Looping:
 
 Conditionals:
 
+    ::python
     int age = 42
 
     if age <= 5:
@@ -92,6 +95,7 @@ Conditionals:
 
 Class definitions:
 
+    ::python
     class Cat:
         def __init__(self, str name):
             str self.name = name

@@ -10,6 +10,7 @@ TIMEZONE = 'Australia/Perth'
 
 DEFAULT_LANG = 'en'
 TYPOGRIFY = True
+MD_EXTENSIONS = ["codehilite(css_class=highlight)", "extra", "toc"]
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
@@ -47,8 +48,8 @@ RELATIVE_URLS = True
 THEME = './theme'
 
 # Plugins
-PLUGIN_PATHS = ["plugins"]
-PLUGINS = ["tag_cloud"]
+PLUGIN_PATHS = ['plugins']
+PLUGINS = ['tag_cloud', 'gzip_cache']
 
 # Tag-Cloud plugin configuration
 TAG_CLOUD_BADGE = True
