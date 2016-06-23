@@ -15,7 +15,7 @@ FTP_TARGET_DIR=/
 SSH_HOST=michaelfbryan.com
 SSH_PORT=22
 SSH_USER=michael
-SSH_TARGET_DIR=/var/www
+SSH_TARGET_DIR=/var/www/html
 
 S3_BUCKET=my_s3_bucket
 

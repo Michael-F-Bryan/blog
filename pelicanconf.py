@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
@@ -27,9 +27,11 @@ LINKS = (('Pelican', 'http://getpelican.com/'),
 
 # Social widget
 SOCIAL = (('You can add links in your config file', '#'),
-          ('Another social link', '#'),)
+        ('github', 'https://github.com/Michael-F-Bryan'),)
 
 DEFAULT_PAGINATION = 10
 
 # Uncomment following line if you want document-relative URLs when developing
-#RELATIVE_URLS = True
+RELATIVE_URLS = True
+
+THEME = '/home/michael/pelican-themes/pelican-bootstrap3'
