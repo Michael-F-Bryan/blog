@@ -2,7 +2,7 @@
 layout: post
 title: Welcome to Jekyll!
 date: 2016-05-18 20:17:33 +0800
-tags: jekyll update how-to
+tags: jekyll, update, how-to
 ---
 
 Creating a static site using Jekyll and Nginx is surprisingly easy, even for 

@@ -17,15 +17,22 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
+TAGS_URL = 'tags.html'
+
+# Sidebar stuff
+DISPLAY_CATEGORIES_ON_SIDEBAR = True
+DISPLAY_TAGS_ON_SIDEBAR = True
+
 # Blogroll
-LINKS = (('Categories', '/categories.html'),
-         ('Python.org', 'http://python.org/'),
-         ('Jinja2', 'http://jinja.pocoo.org/'),
-         ('You can modify those links in your config file', '#'),)
+LINKS = [
+        ('Python.org', 'http://python.org/'),
+        ('Jinja2', 'http://jinja.pocoo.org/'),
+]
 
 # Social widget
-SOCIAL = (('You can add links in your config file', '#'),
-        ('github', 'https://github.com/Michael-F-Bryan'),)
+SOCIAL = [
+        ('github', 'https://github.com/Michael-F-Bryan')
+]
 
 DEFAULT_PAGINATION = 10
 
@@ -38,3 +45,9 @@ THEME = './theme'
 # Plugins
 PLUGIN_PATHS = ["plugins"]
 PLUGINS = ["tag_cloud"]
+
+# Tag-Cloud plugin configuration
+TAG_CLOUD_BADGE = True
+TAG_CLOUD_MAX_ITEMS = 8
+TAG_CLOUD_SORTING = 'random'
+DISPLAY_TAGS_INLINE = False

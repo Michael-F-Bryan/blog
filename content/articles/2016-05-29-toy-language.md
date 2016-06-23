@@ -2,7 +2,7 @@
 layout: post
 title:  Making A Toy Language
 date:   2016-05-29 07:00 +0800
-tags: llvm python how-to projects
+tags: llvm, python, how-to, projects
 ---
 
 This is something I've wanted to do for a while and now that the uni semester

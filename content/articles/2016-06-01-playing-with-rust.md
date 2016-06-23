@@ -2,7 +2,7 @@
 layout: post
 title:  Playing Around With Rust
 date:   2016-06-01 12:17 +0800
-tags: rust how-to
+tags: rust, how-to
 ---
 
 Recently I've started to play around with the [Rust][rust] programming
