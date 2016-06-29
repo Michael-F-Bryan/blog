@@ -20,9 +20,8 @@ Or if you want to view it in your browser, start the dev server with:
 
     ./develop_server.sh start
 
-Then navigate to http://localhost:8000/
-
-To stop the server, you need to run the dev server script again.
+Then navigate to <http://localhost:8000/>. To stop the server, you need to
+run the dev server script again.
 
     ./develop_server.sh stop
 

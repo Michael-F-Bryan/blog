@@ -25,7 +25,7 @@ CATEGORIES_URL = 'categories.html'
 ARTICLE_PATHS = ['blog']
 
 # Sidebar stuff
-DISPLAY_CATEGORIES_ON_SIDEBAR = True
+DISPLAY_CATEGORIES_ON_SIDEBAR = False
 DISPLAY_TAGS_ON_SIDEBAR = True
 
 # Blogroll
